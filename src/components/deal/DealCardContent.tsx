@@ -1,48 +1,21 @@
 
 import React from 'react';
 import { format } from 'date-fns';
-import CachedTelegramImage from '../images/CachedTelegramImage';
+import DealImage from '../images/DealImage';
 
 interface DealCardContentProps {
   title: string;
   description: string;
   createdAt?: string;
+  category?: string;
   imageUrl?: string;
   telegramFileId?: string;
 }
 
-const DealCardContent = ({ title, description, createdAt, imageUrl, telegramFileId }: DealCardContentProps) => {
+const DealCardContent = ({ title, description, createdAt, category, imageUrl, telegramFileId }: DealCardContentProps) => {
   const formattedDate = createdAt
     ? format(new Date(createdAt), 'h:mm a-MMM-d-yy')
     : '';
-
-  const renderImage = () => {
-    if (imageUrl) {
-      return (
-        <img 
-          src={imageUrl} 
-          alt={title}
-          className="w-full h-40 object-contain rounded-lg"
-          loading="lazy"
-          onError={(e) => {
-            console.error('Failed to load Amazon image:', imageUrl);
-            e.currentTarget.style.display = 'none';
-          }}
-        />
-      );
-    } else if (telegramFileId) {
-      return (
-        <CachedTelegramImage
-          telegramFileId={telegramFileId}
-          alt={title}
-          className="w-full h-40  rounded-lg"
-        />
-      );
-    }
-    return null;
-  };
-
-  const hasImage = imageUrl || telegramFileId;
 
   return (
     <div className="space-y-3 flex-1 flex flex-col min-h-0">
@@ -60,17 +33,15 @@ const DealCardContent = ({ title, description, createdAt, imageUrl, telegramFile
       </div>
 
       <div className="flex-1 min-h-0 flex flex-col">
-        {hasImage ? (
-          <div className="mb-3 flex-shrink-0">
-            {renderImage()}
-          </div>
-        ) : (
-          <div className="flex-1 overflow-hidden">
-            <p className="text-sm text-medium-contrast line-clamp-6 leading-relaxed">
-              {description}
-            </p>
-          </div>
-        )}
+        <div className="mb-3 flex-shrink-0">
+          <DealImage
+            title={title}
+            category={category}
+            imageUrl={imageUrl}
+            telegramFileId={telegramFileId}
+            className="w-full h-40 object-contain rounded-lg"
+          />
+        </div>
       </div>
     </div>
   );

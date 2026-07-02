@@ -8,6 +8,7 @@ interface FavoriteItem {
   title: string;
   description: string;
   link: string;
+  category?: string;
   imageUrl?: string;
   telegramFileId?: string;
   id?: string;

@@ -24,7 +24,7 @@ import {
 	extractSecondLink,
 } from './utils/linkUtils';
 import { useNavigate } from 'react-router-dom';
-import CachedTelegramImage from '../images/CachedTelegramImage';
+import DealImage from '../images/DealImage';
 import { format } from 'date-fns';
 
 interface DealDetailDialogProps {
@@ -128,26 +128,15 @@ const DealDetailDialog = ({
 	};
 
 	const renderImage = () => {
-		if (imageUrl) {
-			return (
-				<img
-					src={imageUrl}
-					alt={title}
-					className="w-full h-44 sm:h-48 object-contain rounded-lg"
-					onError={(e) => (e.currentTarget.style.display = 'none')}
-				/>
-			);
-		}
-		if (telegramFileId) {
-			return (
-				<CachedTelegramImage
-					telegramFileId={telegramFileId}
-					alt={title}
-					className="w-full h-44 sm:h-48 rounded-lg"
-				/>
-			);
-		}
-		return null;
+		return (
+			<DealImage
+				title={title}
+				category={extraData?.category}
+				imageUrl={imageUrl}
+				telegramFileId={telegramFileId}
+				className="w-full h-44 sm:h-48 object-contain rounded-lg"
+			/>
+		);
 	};
 
 	const formatCreatedDate = (dateString?: string) => {
@@ -159,8 +148,6 @@ const DealDetailDialog = ({
 		}
 	};
 
-	const hasImage = imageUrl || telegramFileId;
-
 	return (
 		<Dialog open={isOpen} onOpenChange={onOpenChange}>
 			<DialogContent className="w-[92vw] sm:w-[480px] max-h-[95vh] overflow-y-auto rounded-xl text-[0.93rem] sm:text-sm px-4 sm:px-6">
@@ -171,7 +158,7 @@ const DealDetailDialog = ({
 				</DialogHeader>
 
 				<div className="mt-3">
-					{hasImage && <div className="mb-4">{renderImage()}</div>}
+					<div className="mb-4">{renderImage()}</div>
 
 					{/* Container div with small text size, preserves line breaks, and centers content */}
 					<div className="text-sm whitespace-pre-line text-center">

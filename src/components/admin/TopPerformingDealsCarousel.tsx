@@ -35,7 +35,7 @@ import {
 	truncateLink,
 } from '../deal/utils/linkUtils';
 import { handleTrackedLinkClick } from '../../services/api';
-import CachedTelegramImage from '../images/CachedTelegramImage';
+import DealImage from '../images/DealImage';
 import DealCardActions from '../deal/DealCardActions';
 import { useDealCardActions } from '../deal/hooks/useDealCardActions';
 import { useToast } from '@/hooks/use-toast';
@@ -372,28 +372,15 @@ const CustomDealCard = ({
 		});
 
 	const renderImage = () => {
-		if (imageUrl) {
-			return (
-				<img
-					src={imageUrl}
-					alt={title}
-					className="w-full h-32 object-contain rounded-lg mb-3"
-					onError={(e) => {
-						console.error('Failed to load image:', imageUrl);
-						e.currentTarget.style.display = 'none';
-					}}
-				/>
-			);
-		} else if (telegramFileId) {
-			return (
-				<CachedTelegramImage
-					telegramFileId={telegramFileId}
-					alt={title}
-					className="w-full h-32 object-contain rounded-lg mb-3"
-				/>
-			);
-		}
-		return null;
+		return (
+			<DealImage
+				title={title}
+				category={formattedDeal.category}
+				imageUrl={imageUrl}
+				telegramFileId={telegramFileId}
+				className="w-full h-32 object-contain rounded-lg mb-3"
+			/>
+		);
 	};
 
 	const formatDate = (dateString: string) => {
@@ -515,8 +502,6 @@ const CustomDealCard = ({
 		? [extractFirstLink(description)]
 		: [];
 	const hasMultipleLinks = links.length > 1;
-	const hasImage = deal.imageUrl || deal.telegramFileId;
-
 	return (
 		<>
 			<div
@@ -551,15 +536,7 @@ const CustomDealCard = ({
 						</div>
 
 						<div className="flex-1 min-h-0 flex flex-col">
-							{hasImage ? (
-								<div className="mb-3 flex-shrink-0">{renderImage()}</div>
-							) : (
-								<div className="flex-1 overflow-hidden">
-									<p className="text-sm text-medium-contrast line-clamp-6 leading-relaxed">
-										{description}
-									</p>
-								</div>
-							)}
+							<div className="mb-3 flex-shrink-0">{renderImage()}</div>
 						</div>
 					</div>
 

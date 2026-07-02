@@ -242,6 +242,7 @@ const DealCard = memo(({
             title={displayTitle}
             description={displayDescription}
             createdAt={createdAt}
+            category={displayCategory}
             imageUrl={displayImageUrl}
             telegramFileId={telegramFileId}
           />
@@ -262,6 +263,7 @@ const DealCard = memo(({
         title={displayTitle}
         description={displayDescription}
         id={id}
+        extraData={displayCategory ? { category: displayCategory } : undefined}
         imageUrl={displayImageUrl}
         telegramFileId={telegramFileId}
       />

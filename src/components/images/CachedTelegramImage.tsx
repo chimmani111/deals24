@@ -36,6 +36,9 @@ const CachedTelegramImage = ({
   };
 
   React.useEffect(() => {
+    setIsLoaded(false);
+    setIsError(false);
+
     // Check cache first
     if (imageCache.has(telegramFileId)) {
       setImageSrc(imageCache.get(telegramFileId)!);

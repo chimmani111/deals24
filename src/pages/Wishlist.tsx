@@ -8,7 +8,7 @@ import { BigFooter } from '@/components/BigFooter';
 import WishlistHeader from '../components/wishlist/WishlistHeader';
 import WishlistEmptyState from '../components/wishlist/WishlistEmptyState';
 import RemoveDealConfirmDialog from '../components/wishlist/RemoveDealConfirmDialog';
-import CachedTelegramImage from '../components/images/CachedTelegramImage';
+import DealImage from '../components/images/DealImage';
 import { useWishlist } from '../hooks/useWishlist';
 import WishlistDealCard from '../components/wishlist/WishlistDealCard';
 import { extractFirstLink, extractSecondLink } from '../components/deal/utils/linkUtils';
@@ -91,31 +91,16 @@ const Wishlist = () => {
   const renderDialogImage = () => {
     if (!selectedItem) return null;
 
-    if (selectedItem.imageUrl) {
-      return (
-        <img 
-          src={selectedItem.imageUrl} 
-          alt={selectedItem.title} 
-          className="w-full h-48 object-contain rounded-lg"
-          onError={(e) => {
-            console.error('Failed to load image:', selectedItem.imageUrl);
-            (e.target as HTMLImageElement).style.display = 'none';
-          }}
-        />
-      );
-    } else if (selectedItem.telegramFileId) {
-      return (
-        <CachedTelegramImage
-          telegramFileId={selectedItem.telegramFileId}
-          alt={selectedItem.title}
-          className="w-full h-48 rounded-lg"
-        />
-      );
-    }
-    return null;
+    return (
+      <DealImage
+        title={selectedItem.title}
+        category={selectedItem.category}
+        imageUrl={selectedItem.imageUrl}
+        telegramFileId={selectedItem.telegramFileId}
+        className="w-full h-48 object-contain rounded-lg"
+      />
+    );
   };
-
-  const hasDialogImage = selectedItem && (selectedItem.imageUrl || selectedItem.telegramFileId);
 
   const getPrimaryLink = () => {
     if (!selectedItem) return '#';
@@ -170,7 +155,7 @@ const Wishlist = () => {
                 </DialogDescription>
               </DialogHeader>
               
-              {hasDialogImage && (
+              {selectedItem && (
                 <div className="w-full h-48 overflow-hidden rounded-lg mt-2">
                   {renderDialogImage()}
                 </div>

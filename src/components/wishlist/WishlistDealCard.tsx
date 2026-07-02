@@ -2,7 +2,7 @@
 import React, { memo } from 'react';
 import { format } from 'date-fns';
 import { Heart, Share2, Trash2, ExternalLink } from 'lucide-react';
-import CachedTelegramImage from '../images/CachedTelegramImage';
+import DealImage from '../images/DealImage';
 import { handleTrackedLinkClick } from '../../services/api';
 import { extractFirstLink, extractSecondLink } from '../deal/utils/linkUtils';
 
@@ -10,6 +10,7 @@ interface FavoriteItem {
   title: string;
   description: string;
   link: string;
+  category?: string;
   imageUrl?: string;
   telegramFileId?: string;
   id?: string;
@@ -66,34 +67,6 @@ const WishlistDealCard = memo(({
 
   const primaryLink = item.link || extractSecondLink(item.description) || extractFirstLink(item.description) || '#';
 
-  const renderImage = () => {
-    if (item.imageUrl) {
-      return (
-        <img 
-          src={item.imageUrl} 
-          alt={item.title}
-          className="w-full h-40 object-contain rounded-lg"
-          loading="lazy"
-          onError={(e) => {
-            console.error('Failed to load Amazon image:', item.imageUrl);
-            e.currentTarget.style.display = 'none';
-          }}
-        />
-      );
-    } else if (item.telegramFileId) {
-      return (
-        <CachedTelegramImage
-          telegramFileId={item.telegramFileId}
-          alt={item.title}
-          className="w-full h-40 rounded-lg"
-        />
-      );
-    }
-    return null;
-  };
-
-  const hasImage = item.imageUrl || item.telegramFileId;
-
   return (
     <div
       className="group animate-fade-up hover-scale cursor-pointer h-[450px]"
@@ -141,11 +114,15 @@ const WishlistDealCard = memo(({
           </div>
 
           <div className="flex-1 min-h-0 flex flex-col">
-            {hasImage && (
-              <div className="flex-1 flex items-center justify-center">
-                {renderImage()}
-              </div>
-            )}
+            <div className="flex-1 flex items-center justify-center">
+              <DealImage
+                title={item.title}
+                category={item.category}
+                imageUrl={item.imageUrl}
+                telegramFileId={item.telegramFileId}
+                className="w-full h-40 object-contain rounded-lg"
+              />
+            </div>
           </div>
         </div>
 

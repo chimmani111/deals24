@@ -2,12 +2,13 @@
 import React from 'react';
 import { Calendar, ExternalLink, Share2, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import CachedTelegramImage from '../images/CachedTelegramImage';
+import DealImage from '../images/DealImage';
 
 interface FavoriteItem {
   title: string;
   description: string;
   link: string;
+  category?: string;
   imageUrl?: string;
   telegramFileId?: string;
   id?: string;
@@ -31,32 +32,6 @@ const WishlistCard = ({
   onShare,
   formatDate,
 }: WishlistCardProps) => {
-  const renderImage = () => {
-    if (item.imageUrl) {
-      return (
-        <img 
-          src={item.imageUrl} 
-          alt={item.title} 
-          className="w-full h-full object-contain"
-          onError={(e) => {
-            (e.target as HTMLImageElement).style.display = 'none';
-          }}
-        />
-      );
-    } else if (item.telegramFileId) {
-      return (
-        <CachedTelegramImage
-          telegramFileId={item.telegramFileId}
-          alt={item.title}
-          className="w-full h-full"
-        />
-      );
-    }
-    return null;
-  };
-
-  const hasImage = item.imageUrl || item.telegramFileId;
-
   return (
     <div className="bg-white dark:bg-[#171717] border border-gray-100 dark:border-gray-800 rounded-xl p-6 shadow-sm dark:shadow-none hover:shadow-md dark:hover:shadow-none transition-shadow">
       <div className="flex justify-between items-start mb-4">
@@ -78,11 +53,15 @@ const WishlistCard = ({
         </div>
       </div>
       
-      {hasImage && (
-        <div className="w-full h-40 overflow-hidden rounded-lg mb-4">
-          {renderImage()}
-        </div>
-      )}
+      <div className="w-full h-40 overflow-hidden rounded-lg mb-4">
+        <DealImage
+          title={item.title}
+          category={item.category}
+          imageUrl={item.imageUrl}
+          telegramFileId={item.telegramFileId}
+          className="w-full h-full object-contain"
+        />
+      </div>
       
       <p className="text-sm text-apple-gray dark:text-gray-400 mb-4 line-clamp-3">
         {item.description}
