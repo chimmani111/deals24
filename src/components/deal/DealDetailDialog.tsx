@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
 	Dialog,
+	DialogClose,
 	DialogContent,
 	DialogHeader,
 	DialogTitle,
@@ -187,28 +188,37 @@ const DealDetailDialog = ({
 							View Deal
 						</Button>
 					)}
-
+							<DialogClose asChild>
+								<Button
+									type="button"
+									className="flex-1 sm:hidden dark:text-white bg-red-600 dark:bg-red-800 hover:bg-red-700 hover:dark:bg-red-900 hover:scale-105 rounded-full transition-all focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+								>
+									Close
+								</Button>
+							</DialogClose>
 					{extractFirstLink(description || '') && (
-						<a
-							href={
-								extractSecondLink(description || '') ||
-								extractFirstLink(description || '') ||
-								'#'
-							}
-							onClick={(e) =>
-								handleTrackedLinkClick(
+						<div className="flex w-full gap-3 sm:contents">
+							<a
+								href={
 									extractSecondLink(description || '') ||
-										extractFirstLink(description || '') ||
-										'',
-									id,
-									e.nativeEvent,
-								)
-							}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="w-full sm:w-auto flex-1 flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-b from-apple-darkGray to-indigo-950 rounded-full hover:scale-105 transition-all">
-							Buy Now
-						</a>
+									extractFirstLink(description || '') ||
+									'#'
+								}
+								onClick={(e) =>
+									handleTrackedLinkClick(
+										extractSecondLink(description || '') ||
+											extractFirstLink(description || '') ||
+											'',
+										id,
+										e.nativeEvent,
+									)
+								}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="flex-1 sm:w-auto sm:flex-1 flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-b from-apple-darkGray to-indigo-950 rounded-full hover:scale-105 transition-all">
+								Buy Now
+							</a>
+						</div>
 					)}
 
 					<Button
@@ -250,6 +260,17 @@ const DealDetailDialog = ({
 						</div>
 					</div>
 				)}
+
+				<div className="hidden justify-center pt-2 sm:flex">
+					<DialogClose asChild>
+						<Button
+							type="button"
+							className="w-full sm:w-auto flex-1 dark:text-white bg-red-600 dark:bg-red-800 hover:bg-red-700 hover:dark:bg-red-900 hover:scale-105 rounded-full transition-all focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+						>
+							Close
+						</Button>
+					</DialogClose>
+				</div>
 			</DialogContent>
 		</Dialog>
 	);
